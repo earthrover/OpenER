@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:property name="angle_limit_cw" value="${M_PI/4}" />
+	<xacro:property name="angle_limit_ccw" value="${M_PI/4}" />
+
+	<xacro:property name="ankle_offset_y" value="0.085" />
+	<xacro:property name="ankle_offset_z" value="0.0015" />
+
+	<xacro:property name="wheel_offset_y" value="0.06" />
+	<xacro:property name="wheel_offset_z" value="0.05" />
+
+	<xacro:property name="wheel_radius" value=".12" />
+	<xacro:property name="wheel_inner_radius" value=".045" />
+	<xacro:property name="wheel_length" value=".07" />
+	<xacro:property name="wheel_mass" value="1.24" />
+	<!-- from standard equation for thick-walled cylinder -->
+	<xacro:property name="wheel_Ixx_Iyy" value="${wheel_mass*(3*(wheel_radius**2 + wheel_inner_radius**2) + wheel_length**2)/12}" />
+	<xacro:property name="wheel_Izz" value="${wheel_mass*(wheel_radius**2 + wheel_inner_radius**2)/2}" />
+
+	<xacro:macro name="wheel" params="name parent right front">
+		<link name="${name}_ankle">
+			<inertial>
+				<!-- from Solid Edge "Steering Block.asm" -->
+				<origin xyz="0 0.019 -0.0325" rpy="0 0 0" />
+				<mass value="0.271" />
+				<inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0" />
+			</inertial>
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 ${M_PI if right == -1 else 0}"/>
+				<geometry>
+					<mesh filename="package://scouting_robot_description/meshes/hub.dae" />
+				</geometry>
+				<material name="silver"/>
+			</visual>
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 ${M_PI if right == -1 else 0}"/>
+				<geometry>
+					<mesh filename="package://scouting_robot_description/meshes/hub.dae" />
+				</geometry>
+			</collision>
+		</link>
+
+		<gazebo reference="${name}_ankle">
+			<selfCollide>false</selfCollide>
+		</gazebo>
+
+		<link name="${name}_wheel">
+			<inertial>
+				<!-- based on thick-walled cylinder -->
+				<origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+				<mass value="1.24" />
+				<inertia ixx="${wheel_Ixx_Iyy}" iyy="${wheel_Ixx_Iyy}"  izz="${wheel_Izz}" ixy="0.0" ixz="0.0" iyz="0.0" />
+			</inertial>
+			<visual>
+				<xacro:if value="${right == -1}">
+					<origin rpy="0 0 ${M_PI}" />
+				</xacro:if>
+				<geometry>					
+					<xacro:if value="${right == 1}">
+						<mesh filename="package://scouting_robot_description/meshes/r_wheel.dae"/>
+					</xacro:if>
+					<xacro:if value="${right == -1}">
+						<mesh filename="package://scouting_robot_description/meshes/l_wheel.dae"/>
+					</xacro:if>
+				</geometry>
+				
+			</visual>
+			<collision>
+				<origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+				<geometry>
+					<cylinder radius="${wheel_radius}" length="${wheel_length}" />
+				</geometry>
+			</collision>
+		</link>
+
+	
+		<!-- Steering with transmissions for gazebo -->
+    <joint name="${name}_steering_joint" type="revolute">
+      <parent link="${parent}" />
+      <child link="${name}_ankle" />
+      <axis xyz="0 0 1" />
+      <origin xyz="0 ${right*ankle_offset_y} -${ankle_offset_z}" />
+      <limit lower="-${angle_limit_ccw}" upper="${angle_limit_cw}" effort="7" velocity="15" />
+      <!-- guesses -->
+    </joint>
+	
+	 <joint name="${name}_wheel_joint" type="continuous">
+      <parent link="${name}_ankle" />
+      <child link="${name}_wheel" />
+      <axis xyz="0 1 0" />
+      <origin xyz="0 ${right*wheel_offset_y} -${wheel_offset_z}" />
+    </joint>
+<!--
+    <transmission name="${name}_steering_trans" type="SimpleTransmission">
+			<type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${name}_steering_motor">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+			<joint name="${name}_steering_joint">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			</joint>
+		</transmission>
+-->
+    <!-- Power wheels -->
+ 
+
+   
+
+    <transmission name="${name}_wheel_transmission" type="SimpleTransmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<actuator name="${name}_wheel_motor" />
+			<joint name="${name}_wheel_joint">
+				<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+			</joint>
+		</transmission>
+
+  <transmission name="${name}_steering_trans" type="SimpleTransmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<actuator name="${name}_steering_motor" />
+			<joint name="${name}_steering_joint">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			</joint>
+		</transmission>
+
+	</xacro:macro>
+</robot>

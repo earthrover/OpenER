@@ -1,0 +1,41 @@
+# earth_rover:
+  # Publish all joint states -----------------------------------
+#  joint_state_controller:
+#    type: joint_state_controller/JointStateController
+#    publish_rate: 50
+
+  # Position Controllers ---------------------------------------
+  ankle_fl_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: front_left_ankle_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  ankle_fr_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: front_right_ankle_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  ankle_bl_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: back_left_ankle_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  ankle_br_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: back_right_ankle_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  # Velocity Controllers ---------------------------------------
+  wheel_fl_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: front_left_wheel_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wheel_fr_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: front_right_wheel_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wheel_bl_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: back_left_wheel_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wheel_br_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: back_right_wheel_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}

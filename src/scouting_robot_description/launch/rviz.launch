@@ -1,0 +1,19 @@
+<launch>
+	<arg name="gui" default="true" />
+    
+    <param name="robot_description" command="xacro $(find scouting_robot_description)/urdf/scouting_robot.urdf.xacro"/>
+    
+    <rosparam file="$(find scouting_robot_description)/config/4w_control.yaml" command="load"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+    <!-- load the controllers --> 
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+        <param name="use_gui" value="True"/>
+    </node>
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	    output="screen" ns="/" args="four_wheel_steering_controller">
+
+	    <param name="use_gui" value="$(arg gui)" /> 
+    </node>
+	<node name="rviz" pkg="rviz" type="rviz" args=" -d $(find scouting_robot_description)/launch/config.rviz" />
+
+</launch>

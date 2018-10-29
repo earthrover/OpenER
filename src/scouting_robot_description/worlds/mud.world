@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+    <world name="default">
+      <include>
+        <uri>model://sun</uri>
+      </include>
+
+      <include>
+        <uri>model://ground_plane</uri>
+      </include>
+
+      <gui>
+      <camera name="user_camera">
+        <pose>-4.33 1.88 6.11 0 0.9 -0.27</pose>
+      </camera>
+      </gui>
+      
+     <physics type="ode">
+      <real_time_factor>1</real_time_factor>
+      <!--real_time_update_rate>0</real_time_update_rate-->
+     </physics>
+
+      
+    </world>
+  </sdf>

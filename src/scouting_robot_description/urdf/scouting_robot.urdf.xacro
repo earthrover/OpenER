@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="scouting_robot">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <!-- measured mass of tyre and hub outer part: 1.238g -->
+  <!-- measured mass of base block and two steering blocks: 1550 g -->
+  <!-- measured mass of battery block: 2401 g -->
+  <!-- measured mass of ankle motor: 208 g -->
+	<material name="yellow">		<color rgba=".8 .8 0 1" />
+	</material>
+
+	<material name="black"> 	<color rgba="0 0 0 1" />
+	</material>
+
+	<material name="green"> 	<color rgba="0 0.8 0 1" />
+	</material>
+
+	<material name="silver"> 	<color rgba=".8 .8 .8 1" />
+	</material>
+
+  <xacro:include filename="base.urdf.xacro" />
+  <xacro:include filename="wheels.urdf.xacro" />
+  <xacro:base colour="silver"/>
+   
+	<xacro:wheel name="front_left"  parent="base_link" right="1"  front="1" />
+	<xacro:wheel name="front_right" parent="base_link" right="-1" front="1" />
+	<xacro:wheel name="back_left"   parent="back_link" right="1"  front="-1" />
+	<xacro:wheel name="back_right"  parent="back_link" right="-1" front="-1" /> 
+  
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>
