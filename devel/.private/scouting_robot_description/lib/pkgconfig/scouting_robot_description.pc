@@ -1,0 +1,8 @@
+prefix=/home/juanes/catkin_ws/devel/.private/scouting_robot_description
+
+Name: scouting_robot_description
+Description: Description of scouting_robot_description
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/juanes/catkin_ws/devel/.private/scouting_robot_description/lib 
+Requires: 

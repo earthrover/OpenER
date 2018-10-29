@@ -1,0 +1,13 @@
+source $HOME/hrwros_ws/devel/setup.bash
+roslaunch moveit_setup_assistant setup_assistant.launch
+
+catkin init --workspace .
+catkin init --workspace /tmp/path/to/my_catkin_ws
+
+rosrun xacro xacro.py --inorder scouting_robot.urdf.xacro 
+
+
+
+
+ubuntu
+softlink////   ln -s ~/git/ros_best_practices/ ~/catkin_ws/src/  

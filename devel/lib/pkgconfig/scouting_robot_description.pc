@@ -1,0 +1,1 @@
+/home/juanes/catkin_ws/devel/.private/scouting_robot_description/lib/pkgconfig/scouting_robot_description.pc

@@ -1,0 +1,8 @@
+prefix=/home/juanes/catkin_ws/install
+
+Name: four_wheel_steering_controller
+Description: Description of four_wheel_steering_controller
+Version: 0.13.2
+Cflags: -I/home/juanes/catkin_ws/install/include
+Libs: -L/home/juanes/catkin_ws/install/lib -lfour_wheel_steering_controller
+Requires: controller_interface nav_msgs four_wheel_steering_msgs realtime_tools tf urdf_geometry_parser

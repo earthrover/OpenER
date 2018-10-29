@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/juanes/catkin_ws/devel/.private/four_wheel_steering_controller/setup.sh

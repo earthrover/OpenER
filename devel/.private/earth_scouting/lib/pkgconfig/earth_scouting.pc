@@ -1,0 +1,8 @@
+prefix=/home/juanes/catkin_ws/devel/.private/earth_scouting
+
+Name: earth_scouting
+Description: Description of earth_scouting
+Version: 0.3.0
+Cflags: 
+Libs: -L/home/juanes/catkin_ws/devel/.private/earth_scouting/lib 
+Requires: 

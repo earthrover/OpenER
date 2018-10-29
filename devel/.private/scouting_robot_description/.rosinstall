@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/juanes/catkin_ws/devel/.private/scouting_robot_description/setup.sh

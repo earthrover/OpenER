@@ -1,0 +1,4 @@
+scouting_robot_description
+/home/juanes/catkin_ws/devel/.private/scouting_robot_description/share/scouting_robot_description/cmake/scouting_robot_descriptionConfig.cmake /home/juanes/catkin_ws/devel/share/scouting_robot_description/cmake/scouting_robot_descriptionConfig.cmake
+/home/juanes/catkin_ws/devel/.private/scouting_robot_description/share/scouting_robot_description/cmake/scouting_robot_descriptionConfig-version.cmake /home/juanes/catkin_ws/devel/share/scouting_robot_description/cmake/scouting_robot_descriptionConfig-version.cmake
+/home/juanes/catkin_ws/devel/.private/scouting_robot_description/lib/pkgconfig/scouting_robot_description.pc /home/juanes/catkin_ws/devel/lib/pkgconfig/scouting_robot_description.pc
