@@ -1,8 +1,0 @@
-prefix=/home/juanes/catkin_ws/install
-
-Name: earth_scouting
-Description: Description of earth_scouting
-Version: 0.3.0
-Cflags: 
-Libs: -L/home/juanes/catkin_ws/install/lib 
-Requires: 

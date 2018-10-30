@@ -1,8 +1,0 @@
-prefix=/home/juanes/catkin_ws/install
-
-Name: scouting_robot_description
-Description: Description of scouting_robot_description
-Version: 1.0.0
-Cflags: 
-Libs: -L/home/juanes/catkin_ws/install/lib 
-Requires: 

@@ -1,1 +1,0 @@
-/home/juanes/catkin_ws/devel/.private/earth_scouting/lib/pkgconfig/earth_scouting.pc

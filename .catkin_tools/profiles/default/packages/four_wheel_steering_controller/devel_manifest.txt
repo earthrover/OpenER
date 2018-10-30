@@ -1,6 +1,0 @@
-four_wheel_steering_controller
-/home/juanes/catkin_ws/devel/.private/four_wheel_steering_controller/share/four_wheel_steering_controller/cmake/four_wheel_steering_controllerConfig-version.cmake /home/juanes/catkin_ws/devel/share/four_wheel_steering_controller/cmake/four_wheel_steering_controllerConfig-version.cmake
-/home/juanes/catkin_ws/devel/.private/four_wheel_steering_controller/share/four_wheel_steering_controller/cmake/four_wheel_steering_controllerConfig.cmake /home/juanes/catkin_ws/devel/share/four_wheel_steering_controller/cmake/four_wheel_steering_controllerConfig.cmake
-/home/juanes/catkin_ws/devel/.private/four_wheel_steering_controller/lib/libfour_wheel_steering_controller.so /home/juanes/catkin_ws/devel/lib/libfour_wheel_steering_controller.so
-/home/juanes/catkin_ws/devel/.private/four_wheel_steering_controller/lib/four_wheel_steering_controller/four_wheel_steering /home/juanes/catkin_ws/devel/lib/four_wheel_steering_controller/four_wheel_steering
-/home/juanes/catkin_ws/devel/.private/four_wheel_steering_controller/lib/pkgconfig/four_wheel_steering_controller.pc /home/juanes/catkin_ws/devel/lib/pkgconfig/four_wheel_steering_controller.pc

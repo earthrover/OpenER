@@ -1,4 +1,0 @@
-earth_scouting
-/home/juanes/catkin_ws/devel/.private/earth_scouting/share/earth_scouting/cmake/earth_scoutingConfig.cmake /home/juanes/catkin_ws/devel/share/earth_scouting/cmake/earth_scoutingConfig.cmake
-/home/juanes/catkin_ws/devel/.private/earth_scouting/share/earth_scouting/cmake/earth_scoutingConfig-version.cmake /home/juanes/catkin_ws/devel/share/earth_scouting/cmake/earth_scoutingConfig-version.cmake
-/home/juanes/catkin_ws/devel/.private/earth_scouting/lib/pkgconfig/earth_scouting.pc /home/juanes/catkin_ws/devel/lib/pkgconfig/earth_scouting.pc

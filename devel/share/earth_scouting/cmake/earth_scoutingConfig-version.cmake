@@ -1,1 +1,0 @@
-/home/juanes/catkin_ws/devel/.private/earth_scouting/share/earth_scouting/cmake/earth_scoutingConfig-version.cmake
