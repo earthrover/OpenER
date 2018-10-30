@@ -3,7 +3,7 @@
     
     <param name="robot_description" command="xacro $(find scouting_robot_description)/urdf/scouting_robot.urdf.xacro"/>
     
-    <rosparam file="$(find scouting_robot_description)/config/4w_control.yaml" command="load"/>
+    <rosparam file="$(find scouting_robot_description)/config/4ws_control.yaml" command="load"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
     <!-- load the controllers --> 
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >

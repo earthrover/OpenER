@@ -5,9 +5,10 @@
 	
 		<link name="base_link">
 		   	<inertial>
-				<origin xyz="0 0.00163 0.07094" rpy="0 0 0" />
+				<origin xyz="-0.20 0.00163 0.07094" rpy="0 0 0" />
 				<mass value="1.5" />
 				<inertia ixx="0.0025" ixy="0.00013" ixz="0.00419" iyy="0.01593" iyz="0" izz="0.01605" />
+				<gravity>1</gravity>
 			</inertial>
 			<visual>
 				<origin  xyz="0 0 0" rpy="0 0 0" />
@@ -23,7 +24,8 @@
 				</geometry>		
 			</collision>
 		</link>
-		
+
+
 		<link name="back_link">
 			<inertial>
 				<origin xyz="0 -0.023 0.035" rpy="0 0 0" />
@@ -44,14 +46,21 @@
 				</geometry>
 			</collision>
 		</link>
-
+		
 		<joint name="pivot_joint" type="revolute">
 			<origin xyz="-${wheelbase} 0 0" rpy="0 0 0"/>
 			<parent link="base_link"/>
 			<child  link="back_link"/>		
 			<axis xyz="1 0 0"/>
-			<limit lower="-1.5" upper="1.5" effort="10" velocity="5"/>
+			<limit lower="-${M_PI*0.25}" upper="${M_PI*0.25}" effort="10" velocity="5"/>
 		</joint>	
-		
+
+		<gazebo reference="base_link">
+			<selfCollide>false</selfCollide>
+		</gazebo>		
+				
+		<gazebo reference="back_link">
+			<selfCollide>false</selfCollide>
+		</gazebo>
 	</xacro:macro>
 </robot>

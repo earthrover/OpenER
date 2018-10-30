@@ -1,26 +1,18 @@
 <?xml version="1.0" ?>
 <launch>
-	<arg name="paused" default="false"/>
-	<arg name="use_sim_time" default="true"/>
-	<arg name="gui" default="true"/>
-	<arg name="headless" default="false"/>
-	<arg name="debug" default="false"/>
-	<!-- We resume the logic in gazebo_ros package
-	empty_world.launch,
-	changing only the name of the world to be launched -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
-		
+		<!--> <arg name="world_name" default="$(find scouting_robot_description)/worlds/mud.world"/>  -->
 		<arg name="paused" default="false"/>
 		<arg name="use_sim_time" default="true"/>
-		<arg name="gui" default="true"/>
+    	<arg name="gui" default="true"/>
 		<arg name="headless" default="false"/>
 		<arg name="debug" default="false"/>
 	</include>
 
 	<include file="$(find scouting_robot_description)/launch/spawn_robot.launch"/>
-	
 
- 
-  
+	<include file="$(find earth_steering)/launch/earth_steering.launch"/>
+ 	
+	 <include file="$(find four_wheel_steer_teleop)/launch/teleop.launch"/>	
 
 </launch>
