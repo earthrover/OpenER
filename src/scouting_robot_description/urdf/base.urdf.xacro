@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-	<xacro:property name="wheelbase" value="0.45" />
+	<xacro:property name="wheelbase" value="$(arg wheel_base)" />
 	<xacro:macro name="base" params="colour">
 	
 		<link name="base_link">

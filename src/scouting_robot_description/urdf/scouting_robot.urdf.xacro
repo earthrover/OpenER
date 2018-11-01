@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="scouting_robot">
-
-  <xacro:property name="M_PI" value="3.1415926535897931" />
+	<xacro:property name="M_PI" value="3.1415926535897931" />
   <!-- measured mass of tyre and hub outer part: 1.238g -->
   <!-- measured mass of base block and two steering blocks: 1550 g -->
   <!-- measured mass of battery block: 2401 g -->

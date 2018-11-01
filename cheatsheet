@@ -11,3 +11,6 @@ rosrun xacro xacro.py --inorder scouting_robot.urdf.xacro
 
 ubuntu
 softlink////   ln -s ~/git/ros_best_practices/ ~/catkin_ws/src/  
+
+git init
+rm -rf .git

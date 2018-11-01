@@ -6,34 +6,79 @@
   <arg name="roll" default="0"/>
   <arg name="pitch" default="0"/>
   <arg name="yaw" default="0"/>
+   
+  <!-- 4WS PARAMS & ROBOT Wheelbase & Steering Axis-->  
+  <arg name="wheelbase" default="0.44"/>
+  <arg name="steering_offset_y" default="0.085"/>	
+
+  <!-- ROBOT PARAMS -->  
+  <arg name="wheeloffset_y" default="0.06"/>
+  <arg name="wheeloffset_z" default="0.05"/>
+  <arg name="wheelradius" default=".12"/>
+  <arg name="wheelinner_radius" default=".045"/>
+  <arg name="wheellength" default=".07"/>
+  <arg name="wheelmass" default="1.24"/>	    
+  <arg name="huboffset_z" default="0.0015"/>	
+
+  <arg name="max_speed" default="2" />
+  <arg name="max_steering_angle" default="0.5" />
+  <arg name="cmd_topic" default="/cmd_vel" />
 
   <param name="robot_description"
-         command="$(find xacro)/xacro --inorder '$(find scouting_robot_description)/urdf/scouting_robot.urdf.xacro'"/>
+         command="$(find xacro)/xacro --inorder '$(find scouting_robot_description)/urdf/scouting_robot.urdf.xacro' 
+         wheel_base:=$(arg wheelbase)
+         wheel_offset_y:=$(arg wheeloffset_y)
+         wheel_offset_z:=$(arg wheeloffset_z)
+         wheel_radius:=$(arg wheelradius)
+         wheel_inner_radius:=$(arg wheelinner_radius)
+         wheel_length:=$(arg wheellength)
+         wheel_mass:=$(arg wheelmass)
+         ankle_offset_y:=$(arg steering_offset_y)
+         ankle_offset_z:=$(arg huboffset_z)
+         "/>
 
   <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" 
         args="-urdf -param robot_description -model scouting_robot
               -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 
-    <!-- Ensure that the TFs for SCOUTING-ROBOT are made available. -->
-    <node pkg="robot_state_publisher" type="robot_state_publisher"  name="rover_state_publisher">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <remap from="robot_description" to="robot_description"/>
-    </node>
-    <!-- Load controller config <rosparam file="$(find scouting_robot_description)/config/four_wheel_steering_control.yaml" command="load"/>
-    -->
-      <rosparam command="load" file="$(find four_wheel_steering_controller)/config/four_wheel_steering_controller_4ws_cmd.yaml" />
+  <!-- Ensure that the TFs for SCOUTING-ROBOT are made available. -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher"  name="rover_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <remap from="robot_description" to="robot_description"/>
+  </node>
+  <!-- Load controller config <rosparam file="$(find scouting_robot_description)/config/four_wheel_steering_control.yaml" command="load"/>
+  -->
+    <rosparam command="load" file="$(find four_wheel_steering_controller)/config/four_wheel_steering_controller_4ws_cmd.yaml" />
     
-      <!-- load the controllers --> 
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-        <param name="use_gui" value="True"/>
-    </node    >
+  <!-- load the controllers --> 
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    <!--<param name="use_gui" value="True"/>-->
+  </node>
     
-      <node name="four_wheel_steering" pkg="four_wheel_steering_controller" type="four_wheel_steering" output="screen"/>
+  <node name="four_wheel_steering" pkg="four_wheel_steering_controller" type="four_wheel_steering" output="screen"
+      args="-wheel_steering_y_offset_ $(arg steering_offset_y) 
+            -wheel_base $(arg wheelbase) 
+            -wheel_radius_ $(arg wheelradius)
+            "/>
 
-   
-      <!-- Spawn controller -->
-      <node name="controller_spawner"
-        pkg="controller_manager" type="spawner" output="screen"
-        args="robot_joint_publisher four_wheel_steering_controller --shutdown-timeout 3"/>
+  <!-- Spawn controller -->
+  <node name="controller_spawner"
+    pkg="controller_manager" type="spawner" output="screen"
+    args="robot_joint_publisher four_wheel_steering_controller --shutdown-timeout 3"/>
+
+  <include file="$(find earth_steering)/launch/earth_steering.launch">
+    <arg name="max_speed" value = "$(arg max_speed)"/>
+    <arg name="max_steering_angle" value="$(arg max_steering_angle)"/>
+    <arg name="wheelbase" value="$(arg wheelbase)"/> 
+  </include>	
+
+
+  <include file="$(find four_wheel_steer_teleop)/launch/teleop.launch">
+    <arg name="max_speed" value = "$(arg max_speed)"/>
+    <arg name="max_steering_angle" value="$(arg max_steering_angle)"/>
+    <arg name="cmd_topic" value="$(arg cmd_topic)"/> 
+    <arg name="wheelbase" value="$(arg wheelbase)"/> 
+  </include>	
+
 
 </launch>

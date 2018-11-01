@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	<xacro:property name="angle_limit_cw" value="${M_PI/4}" />
+	<xacro:property name="angle_limit_cw"  value="${M_PI/4}" />
 	<xacro:property name="angle_limit_ccw" value="${M_PI/4}" />
 
-	<xacro:property name="ankle_offset_y" value="0.085" />
-	<xacro:property name="ankle_offset_z" value="0.0015" />
+	<xacro:property name="ankle_offset_y" value="$(arg ankle_offset_y)" />
+	<xacro:property name="ankle_offset_z" value="$(arg ankle_offset_z)" />
 
-	<xacro:property name="wheel_offset_y" value="0.06" />
-	<xacro:property name="wheel_offset_z" value="0.05" />
+	<xacro:property name="wheel_offset_y" value="$(arg wheel_offset_y)" />
+	<xacro:property name="wheel_offset_z" value="$(arg wheel_offset_z)" />
 
-	<xacro:property name="wheel_radius" value=".12" />
-	<xacro:property name="wheel_inner_radius" value=".045" />
-	<xacro:property name="wheel_length" value=".07" />
-	<xacro:property name="wheel_mass" value="1.24" />
+	<xacro:property name="wheel_radius" 		value="$(arg wheel_radius)" />
+	<xacro:property name="wheel_inner_radius" 	value="$(arg wheel_inner_radius)" />
+	<xacro:property name="wheel_length" value="$(arg wheel_length)" />
+	<xacro:property name="wheel_mass" 	value="$(arg wheel_mass)" />
+	
 	<!-- from standard equation for thick-walled cylinder -->
 	<xacro:property name="wheel_Ixx_Iyy" value="${wheel_mass*(3*(wheel_radius**2 + wheel_inner_radius**2) + wheel_length**2)/12}" />
 	<xacro:property name="wheel_Izz" value="${wheel_mass*(wheel_radius**2 + wheel_inner_radius**2)/2}" />
