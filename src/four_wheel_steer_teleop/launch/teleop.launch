@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <arg name="max_speed" default="0.5" />
+  <arg name="max_steering_angle" default="0.5" />
+  <arg name="cmd_topic" default="/cmd_vel" />
+  <arg name="wheelbase" default="0.1" />
+
+  <node name="four_wheel_steer_teleop" pkg="four_wheel_steer_teleop"
+    type="four_wheel_steer_teleop.py" output="screen" launch-prefix="gnome-terminal --command" > 
+    <param name="max_speed" value="$(arg max_speed)" />
+    <param name="max_steering_angle" value="$(arg max_steering_angle)" />
+    <param name="cmd_topic" value="$(arg cmd_topic)" />
+    <param name="wheelbase" value="$(arg wheelbase)" />
+  </node>
+
+</launch>
