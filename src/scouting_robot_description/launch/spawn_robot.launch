@@ -34,8 +34,7 @@
          wheel_length:=$(arg wheellength)
          wheel_mass:=$(arg wheelmass)
          ankle_offset_y:=$(arg steering_offset_y)
-         ankle_offset_z:=$(arg huboffset_z)
-         "/>
+         ankle_offset_z:=$(arg huboffset_z)"/>
 
   <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" 
         args="-urdf -param robot_description -model scouting_robot

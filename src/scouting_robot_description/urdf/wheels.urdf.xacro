@@ -23,7 +23,7 @@
 		<link name="${name}_ankle">
 			<inertial>			
 				<origin xyz="0 0.019 -0.0325" rpy="0 0 0" />
-				<mass value="0.271" />
+				<mass value="0.4" />
 				<inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0" />
 				<gravity>1</gravity>
 			</inertial>

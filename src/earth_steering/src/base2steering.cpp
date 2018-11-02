@@ -11,17 +11,18 @@ void load_param( double & p, double def, string name ) {
 
 base2steering::base2steering() {	
 	_cmd_vel_sub = _nh.subscribe("/cmd_vel", 0, &base2steering::cmd_vel_cb, this);	
-	load_param( _delta_max, 0.8, "delta_max");
+	load_param( _angle_max, 0.8, "delta_max");
 	load_param( _max_x_vel, 1.0, "max_x_vel");
 	load_param( _wheelbase, 1.0, "wheelbase");
-
-	_4ws_vel = _nh.advertise<four_wheel_steering_msgs::FourWheelSteering>("/four_wheel_steering_controller/cmd_four_wheel_steering", 0);
+	
+	_fws_vel = _nh.advertise<four_wheel_steering_msgs::FourWheelSteering>("/four_wheel_steering_controller/cmd_four_wheel_steering", 0);
 	_x_vel = _t_vel = 0.0;
+	_y_vel = _t_vel = 0.0; 
 }
 
-float domega_to_delta( float v, float domega, float wheelbase ) {
-	if( v == 0 || domega == 0 ) 
-		return 0.0;
+float domega_to_angle( float v, float domega, float wheelbase ) {
+	//if( v == 0 || domega == 0 ) 
+		//return 0.0;
 
 	float radius = v / domega;
 	return atan( wheelbase / radius );
@@ -29,7 +30,9 @@ float domega_to_delta( float v, float domega, float wheelbase ) {
 
 void base2steering::cmd_vel_cb( geometry_msgs::Twist cmd ) {
 	_x_vel = cmd.linear.x;
-	_t_vel = cmd.angular.z;
+	_y_vel = cmd.linear.y;//x + y enables crab steering	
+	_t_vel = cmd.angular.z;// normal 4WS
+
 }
 
 void base2steering::fws_ctrl() {	
@@ -38,8 +41,8 @@ void base2steering::fws_ctrl() {
     fws_ctrl_msg.acceleration = 0.5;
     fws_ctrl_msg.jerk = 0.5;
     std::string steering_mode;
-    std::string steering_joypad ("joypad");
-
+    std::string steering_joypad ("joypad");	
+	float speed=0,angle=0;
 	while(ros::ok()) {
         // this acts as a guard to block sending if there is a steering mode and it's set to "joypad"
 	    if (ros::param::get("/steering_mode", steering_mode)){
@@ -48,13 +51,35 @@ void base2steering::fws_ctrl() {
                 continue;
 	        }
         }
-        fws_ctrl_msg.speed = _x_vel*_max_x_vel;
-        float delta = domega_to_delta( _x_vel, _t_vel, _wheelbase );
-        delta = ( fabs(delta) > _delta_max ) ? ( delta < 0 ) ? -_delta_max : _delta_max : delta;
+		speed=0;					
+		if((fabs(_y_vel)>0)&&(fabs(_t_vel)==0)){// Crab Steering			
+			speed =sqrtf(_x_vel*_x_vel+_y_vel*_y_vel)*_max_x_vel;	//	
+			angle = atan2f(_y_vel,_x_vel);			
+			angle = ( fabs(angle) > _angle_max ) ? ( angle < 0 ) ? -_angle_max : _angle_max : angle;
 
-        fws_ctrl_msg.front_steering_angle = delta;
-        fws_ctrl_msg.rear_steering_angle = -delta;
-        _4ws_vel.publish( fws_ctrl_msg );
+			fws_ctrl_msg.front_steering_angle = angle;
+			fws_ctrl_msg.rear_steering_angle  = angle;
+
+		}else if(fabs(_x_vel)>0){//counter steering STD 4WS
+			speed = _x_vel*_max_x_vel;		
+			angle = domega_to_angle( _x_vel, _t_vel, _wheelbase );
+			angle = ( fabs(angle) > _angle_max ) ? ( angle < 0 ) ? -_angle_max : _angle_max : angle;
+
+			fws_ctrl_msg.front_steering_angle = angle;
+			fws_ctrl_msg.rear_steering_angle = -angle;
+		}
+		/*else if((fabs(_x_vel)==0)&&(fabs(_y_vel)==0)&&fabs(_t_vel)>0){//counter steering STD 4WS
+			speed = _x_vel*_max_x_vel;		
+			angle = domega_to_angle( _x_vel, _t_vel, _wheelbase );
+			angle = ( fabs(angle) > _angle_max ) ? ( angle < 0 ) ? -_angle_max : _angle_max : angle;
+
+			fws_ctrl_msg.front_steering_angle = angle;
+			fws_ctrl_msg.rear_steering_angle = -angle;
+		}*/
+		fws_ctrl_msg.speed=speed;
+		//printf("%f %f %f %f\n",_x_vel,_y_vel,_t_vel,fws_ctrl_msg.speed);
+        _fws_vel.publish( fws_ctrl_msg );
+		
 		r.sleep();
 	}
 }
