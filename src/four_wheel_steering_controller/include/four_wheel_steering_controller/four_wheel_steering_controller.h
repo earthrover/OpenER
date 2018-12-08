@@ -118,9 +118,10 @@ namespace four_wheel_steering_controller{
     {
       double lin_x;
       double lin_y;
+      double lin_z;
       double ang;
 
-      CommandTwist() : lin_x(0.0), lin_y(0.0), ang(0.0) {}
+      CommandTwist() : lin_x(0.0), lin_y(0.0), lin_z(0.0), ang(0.0) {}
     };
     struct Command4ws : Command
     {
@@ -132,8 +133,8 @@ namespace four_wheel_steering_controller{
     };
     realtime_tools::RealtimeBuffer<CommandTwist> command_twist_;
     CommandTwist command_struct_twist_;
-    ros::Subscriber sub_command_;
-
+    ros::Subscriber sub_command_twist_;
+  
     /// FourWheelSteering command related:
     realtime_tools::RealtimeBuffer<Command4ws> command_four_wheel_steering_;
     Command4ws command_struct_four_wheel_steering_;

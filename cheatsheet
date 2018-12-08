@@ -6,6 +6,7 @@ catkin init --workspace /tmp/path/to/my_catkin_ws
 
 rosrun xacro xacro.py --inorder scouting_robot.urdf.xacro 
 
+rostopic echo /four_wheel_steering_controller/cmd_four_wheel_steering
 
 
 
@@ -15,3 +16,4 @@ softlink////   ln -s ~/git/ros_best_practices/ ~/catkin_ws/src/
 git init
 rm -rf .git
 git push
+git add --all src/

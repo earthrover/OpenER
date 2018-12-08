@@ -13,18 +13,12 @@
 
     <node pkg="earth_steering" name="joy2cmd_vel" type="joy2cmd_vel" output="screen">
     </node>
-    
-    <node pkg="earth_steering" name="base2steering" type="base2steering" output="screen">
-        <param name="wheelbase" type="double" value="0.44" />
-        <param name="delta_max" type="double" value="0.4" />
-        <param name="max_x_vel" type="double" value="0.2" />
-    </node>
 -->
   <arg name="wheelbase" default="0.4" />  
  <arg name="max_speed" default="0.5" />
   <arg name="max_steering_angle" default="0.4" />
 
-    <node pkg="earth_steering" name="base2steering" type="base2steering" output="screen">
+    <node pkg="earth_steering" name="base2steering" type="base2steering" output="screen" >
         <param name="wheelbase" type="double" value="$(arg wheelbase)" />
         <param name="delta_max" type="double" value="$(arg max_steering_angle)" />
         <param name="max_x_vel" type="double" value="$(arg max_speed)" />

@@ -53,7 +53,7 @@ namespace four_wheel_steering_controller{
 		, cmd_vel_timeout_(0.5)
 		, base_frame_id_("base_link")
 		, enable_odom_tf_(true)
-		, enable_twist_cmd_(false)
+		, enable_twist_cmd_(true)
 	{
 	}
 
@@ -239,7 +239,7 @@ namespace four_wheel_steering_controller{
 			rear_steering_joints_[i] = pos_joint_hw->getHandle(rear_steering_names[i]);  // throws on failure
 		}
 
-		sub_command_ = controller_nh.subscribe("cmd_vel", 1, &FourWheelSteeringController::cmdVelCallback, this);
+		sub_command_twist_ = controller_nh.subscribe("cmd_vel", 1, &FourWheelSteeringController::cmdVelCallback, this);
 		sub_command_four_wheel_steering_ = controller_nh.subscribe("cmd_four_wheel_steering", 1, &FourWheelSteeringController::cmdFourWheelSteeringCallback, this);
 
 		return true;
@@ -319,6 +319,7 @@ namespace four_wheel_steering_controller{
 				odom_pub_->msg_.pose.pose.orientation = orientation;
 				odom_pub_->msg_.twist.twist.linear.x = odometry_.getLinearX();
 				odom_pub_->msg_.twist.twist.linear.y = odometry_.getLinearY();
+				odom_pub_->msg_.twist.twist.linear.z = odometry_.getLinearZ();
 				odom_pub_->msg_.twist.twist.angular.z = odometry_.getAngular();
 				odom_pub_->unlockAndPublish();
 			}
@@ -353,8 +354,8 @@ namespace four_wheel_steering_controller{
 		// Retreive current velocity command and time step:
 		Command* cmd;
 		CommandTwist curr_cmd_twist = *(command_twist_.readFromRT());
-		Command4ws curr_cmd_4ws = *(command_four_wheel_steering_.readFromRT());
-
+		Command4ws curr_cmd_4ws = *(command_four_wheel_steering_.readFromRT());		
+		float angle=0;
 		if (curr_cmd_4ws.stamp >= curr_cmd_twist.stamp)
 		{
 			cmd = &curr_cmd_4ws;
@@ -372,6 +373,7 @@ namespace four_wheel_steering_controller{
 		{
 			curr_cmd_twist.lin_x = 0.0;
 			curr_cmd_twist.lin_y = 0.0;
+			curr_cmd_twist.lin_z = 0.0;
 			curr_cmd_twist.ang = 0.0;
 			curr_cmd_4ws.lin = 0.0;
 			curr_cmd_4ws.front_steering = 0.0;
@@ -393,6 +395,7 @@ namespace four_wheel_steering_controller{
 		{
 			// Limit velocities and accelerations:
 			limiter_lin_.limit(curr_cmd_twist.lin_x, last0_cmd_.lin_x, last1_cmd_.lin_x, cmd_dt);
+			limiter_lin_.limit(curr_cmd_twist.lin_z, last0_cmd_.lin_z, last1_cmd_.lin_z, cmd_dt);
 			limiter_ang_.limit(curr_cmd_twist.ang, last0_cmd_.ang, last1_cmd_.ang, cmd_dt);
 			last1_cmd_ = last0_cmd_;
 			last0_cmd_ = curr_cmd_twist;
@@ -433,6 +436,23 @@ namespace four_wheel_steering_controller{
 				front_right_steering = copysign(M_PI_2, curr_cmd_twist.ang);
 				rear_left_steering = copysign(M_PI_2, -curr_cmd_twist.ang);
 				rear_right_steering = copysign(M_PI_2, -curr_cmd_twist.ang);
+			}		
+			/*/////////////////////*/
+			/************************/
+			//////////--------------------------------------------------------////////////////
+			else if((fabs(curr_cmd_twist.lin_z) > 0)&&(curr_cmd_twist.lin_x==0)&&(curr_cmd_twist.lin_y==0)){//steering in place				
+				angle=atan2f(wheel_base_/2,steering_track/2);
+				//printf("steering in place %f\n",angle);
+				//angle=.5;
+				front_left_steering = -angle;
+				front_right_steering = angle;
+				rear_left_steering   = angle;
+				rear_right_steering = -angle; 
+
+				vel_left_front = -curr_cmd_twist.lin_z;
+				vel_right_front = curr_cmd_twist.lin_z;
+				vel_left_rear = -curr_cmd_twist.lin_z;
+				vel_right_rear = curr_cmd_twist.lin_z;
 			}
 		}
 		else
@@ -541,6 +561,7 @@ namespace four_wheel_steering_controller{
 			command_struct_twist_.ang = command.angular.z;
 			command_struct_twist_.lin_x = command.linear.x;
 			command_struct_twist_.lin_y = command.linear.y;
+			command_struct_twist_.lin_z = command.linear.z;
 			command_struct_twist_.stamp = ros::Time::now();
 			command_twist_.writeFromNonRT(command_struct_twist_);
 			ROS_DEBUG_STREAM_NAMED(name_,
@@ -548,6 +569,7 @@ namespace four_wheel_steering_controller{
 				<< "Ang: " << command_struct_twist_.ang << ", "
 				<< "Lin x: " << command_struct_twist_.lin_x << ", "
 				<< "Lin y: " << command_struct_twist_.lin_y << ", "
+				<< "Lin z: " << command_struct_twist_.lin_z << ", "
 				<< "Stamp: " << command_struct_twist_.stamp);
 		}
 		else

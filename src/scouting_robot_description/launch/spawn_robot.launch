@@ -9,8 +9,8 @@
    
   <!-- 4WS PARAMS & ROBOT Wheelbase & Steering Axis-->  
   <arg name="wheelbase" default="0.44"/>
+  <!-- <arg name="steering_offset_y" default="0.085"/>	-->
   <arg name="steering_offset_y" default="0.085"/>	
-
   <!-- ROBOT PARAMS -->  
   <arg name="wheeloffset_y" default="0.06"/>
   <arg name="wheeloffset_z" default="0.05"/>
@@ -63,15 +63,14 @@
   <!-- Spawn controller -->
   <node name="controller_spawner"
     pkg="controller_manager" type="spawner" output="screen"
-    args="robot_joint_publisher four_wheel_steering_controller --shutdown-timeout 3"/>
+    args="robot_joint_publisher four_wheel_steering_controller"/>
 
   <include file="$(find earth_steering)/launch/earth_steering.launch">
     <arg name="max_speed" value = "$(arg max_speed)"/>
     <arg name="max_steering_angle" value="$(arg max_steering_angle)"/>
     <arg name="wheelbase" value="$(arg wheelbase)"/> 
   </include>	
-
-
+ 
   <include file="$(find four_wheel_steer_teleop)/launch/teleop.launch">
     <arg name="max_speed" value = "$(arg max_speed)"/>
     <arg name="max_steering_angle" value="$(arg max_steering_angle)"/>

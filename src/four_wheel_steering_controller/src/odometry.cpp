@@ -48,6 +48,7 @@ namespace four_wheel_steering_controller
   , linear_(0.0)
   , linear_x_(0.0)
   , linear_y_(0.0)
+  , linear_z_(0.0)
   , angular_(0.0)
   , steering_track_(0.0)
   , wheel_steering_y_offset_(0.0)

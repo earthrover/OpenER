@@ -1,0 +1,3 @@
+geometry_msgs/Pose[] cartesian_wp
+---
+std_msgs/Bool success

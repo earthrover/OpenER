@@ -22,9 +22,10 @@ class base2steering {
 		ros::NodeHandle _nh;
 		ros::Subscriber _cmd_vel_sub;
 		ros::Publisher  _fws_vel;
-
+		ros::Publisher twist_pub;
 		float _x_vel;
 		float _y_vel;
+		float _z_vel;
 		float _t_vel;
 		double _angle_max;
 		double _wheelbase;
