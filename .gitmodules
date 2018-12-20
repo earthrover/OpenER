@@ -1,0 +1,3 @@
+[submodule "er_localisation"]
+	path = er_localisation
+	url = https://github.com/earthrover/er_localisation
