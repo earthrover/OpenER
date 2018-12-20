@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<launch>
-
-  <node pkg="earth_rover_navigation" name="nav_client" type="nav_client" output="screen">
-    <param name="csv_file" type="string" value="geo_wp.txt" />
-  </node>
-  
-</launch>
