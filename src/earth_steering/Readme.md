@@ -39,5 +39,4 @@ Description
 ===============
 Node that listens to _cmd_vel messages published by Joystick, teleop, or navigation and publishes _fws_vel (4WS mode) and twist msgs (for rotate in place) to be read by the four wheel steering controller
 
-### ROS Install
-[Installation manual](https://github.com/earthrover/scouting-robot-ros/blob/master/install.md)
+
