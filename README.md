@@ -42,3 +42,6 @@ Base project for our Open Source version of the Earth Rover UGV platform.
 
 ### ROS Install
 [Installation manual](https://github.com/earthrover/scouting-robot-ros/blob/master/install.md)
+
+### Travis CI 
+
