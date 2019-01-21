@@ -78,6 +78,19 @@ before_install:
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
+#
+# Install GeographicLib
+#
+ - wget https://sourceforge.net/projects/geographiclib/files/distrib/GeographicLib-1.49.tar.gz/download
+ - tar xfpz download
+ - cd GeographicLib-1.49
+ - mkdir BUILD
+ - cd BUILD
+ - cmake ..
+ - make
+ - sudo make install
+ - cd ~
+
 
 # Create a catkin workspace with the package under integration.
 install:
