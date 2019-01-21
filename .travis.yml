@@ -74,8 +74,22 @@ before_install:
   - sudo apt-get install dpkg
   - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
   - sudo apt-get install ros-kinetic-robot-localization
-  - source /opt/ros/$ROS_DISTRO/setup.bash
+  #
+  # Install GeographicLib 
+  #
+  - wget https://sourceforge.net/projects/geographiclib/files/distrib/GeographicLib-1.49.tar.gz/download
+  - tar xfpz download
+  - cd GeographicLib-1.49 
+  - mkdir BUILD
+  - cd BUILD
+  - cmake ..
+  - make
+  - sudo make install
+  - cd ~
+  #  
   # Prepare rosdep to install dependencies.
+  #
+  - source /opt/ros/$ROS_DISTRO/setup.bash
   - sudo rosdep init
   - rosdep update
 
