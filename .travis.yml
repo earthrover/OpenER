@@ -95,11 +95,7 @@ before_install:
 
 # Create a catkin workspace with the package under integration.
 install:
-  - mkdir -p ~/catkin_ws/src/libs
-  # Download ROS drivers for the Piksi RTK GPS module
-  - cd ~/catkin_ws/src/libs
-  - git clone https://github.com/ethz-asl/ethz_piksi_ros.git
-  # package under integration.
+  - mkdir -p ~/catkin_ws/src/libs 
   - cd ~/catkin_ws/src
   - catkin_init_workspace
   # Create the devel/setup.bash (run catkin_make with an empty workspace) and
@@ -119,9 +115,12 @@ before_script:
   - wstool init
   - if [[ -f $ROSINSTALL_FILE ]] ; then wstool merge $ROSINSTALL_FILE ; fi
   - wstool up
+  # Download ROS drivers for the Piksi RTK GPS module
+  - cd ~/catkin_ws/src/libs
+  - git clone https://github.com/ethz-asl/ethz_piksi_ros.git
   # package depdencies: install using rosdep.
   - cd ~/catkin_ws
-  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO  
 
 # Compile and test (mark the build as failed if any step fails). If the
 # CATKIN_OPTIONS file exists, use it as an argument to catkin_make, for example
